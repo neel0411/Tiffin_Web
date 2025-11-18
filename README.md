@@ -42,10 +42,17 @@ Order details
 🟢 Admin Panel
 Full system control dashboard
 View total:
+
 Customers
+
 Suppliers
+
 Menu items
+
 Orders
+
 Payments
+
 Feedback
+
 Monitor platform activities efficiently
