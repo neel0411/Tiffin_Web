@@ -22,24 +22,35 @@ MongoDB – NoSQL database used to store customers, suppliers, menu items, order
 Key Features
 
 🔵 Customer Panel
+
 User Registration & Login
+
 View Home, Menu, About, Orders, Feedback
+
 Place tiffin orders easily
+
 Track real-time order status:
 Pending
 In Progress
 Completed
+
 Give feedback and view payment status
 
 🟠 Supplier Panel
+
 Receive all customer orders instantly
+
 Update order status in real-time
 Manage:
+
 Payments
+
 Feedback
+
 Order details
 
 🟢 Admin Panel
+
 Full system control dashboard
 View total:
 
