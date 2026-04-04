@@ -69,6 +69,3 @@ Feedback
 Monitor platform activities efficiently
 
 
-Demo Link
-
-https://tiffinzone.vercel.app/
