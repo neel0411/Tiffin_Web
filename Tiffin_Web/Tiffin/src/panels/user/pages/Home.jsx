@@ -21,10 +21,10 @@ const Home = () => {
         console.log("📝 Real testimonials:", response.data);
         
         if (response.data && Array.isArray(response.data)) {
-          // Sirf 3 feedback show karo
+          
           setTestimonials(response.data.slice(0, 3));
         } else {
-          // Agar data nahi mila toh fallback
+          
           setTestimonials(getFallbackTestimonials());
         }
       } catch (error) {
@@ -47,12 +47,12 @@ const Home = () => {
         rating: 5 
       },
       { 
-        customer_id: { name: "Rohan" }, 
+        customer_id: { name: "Jatin" }, 
         feedback_text: "Affordable and tasty meals. Perfect for students!", 
         rating: 4 
       },
       { 
-        customer_id: { name: "Ananya" }, 
+        customer_id: { name: "Keyur" }, 
         feedback_text: "Love the variety of dishes. Highly recommend!", 
         rating: 5 
       }
@@ -255,25 +255,7 @@ const Home = () => {
           </button>
         </section>
 
-        {/* Team Section */}
-        <section className="py-20 px-6 sm:px-10 lg:px-20 bg-white text-center">
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-800 mb-12">Meet Our Team</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
-            {[
-              { name: "Jatin Jagatiya", role: "Frontend / Backend Developer" },
-              { name: "Keyur Patel", role: "Frontend / UI/UX Designer" },
-              { name: "Reev Bhandari", role: "Frontend Developer" },
-            ].map((member, index) => (
-              <div key={index} className="bg-gradient-to-br from-slate-50 to-blue-50 p-8 rounded-3xl shadow-lg hover:-translate-y-3 transition-all duration-300 border border-slate-200 group">
-                <div className="w-24 h-24 mx-auto bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {member.name.charAt(0)}
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-3">{member.name}</h3>
-                <p className="text-slate-600">{member.role}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        
 
       </div>
 
