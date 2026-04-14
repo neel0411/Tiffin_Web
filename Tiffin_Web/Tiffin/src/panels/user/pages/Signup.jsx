@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../services/api";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -33,6 +33,25 @@ function Signup() {
     password: false,
     confirmPassword: false,
   });
+
+  // Real-time password strength indicator
+  const [passwordStrength, setPasswordStrength] = useState({
+    hasUpper: false,
+    hasLower: false,
+    hasNumber: false,
+    minLength: false,
+  });
+
+  // Check password strength in real-time
+  useEffect(() => {
+    const password = formData.password;
+    setPasswordStrength({
+      hasUpper: /[A-Z]/.test(password),
+      hasLower: /[a-z]/.test(password),
+      hasNumber: /[0-9]/.test(password),
+      minLength: password.length >= 6,
+    });
+  }, [formData.password]);
 
   // Validation function
   const validateField = (name, value) => {
@@ -70,6 +89,12 @@ function Signup() {
       case "email":
         if (!value.trim()) {
           error = "Email address is required";
+        } else if (!value.includes("@")) {
+          error = "Email must contain '@' symbol";
+        } else if (!value.includes("gmail")) {
+          error = "Email must contain 'gmail'";
+        } else if (!value.endsWith(".com")) {
+          error = "Email must end with '.com'";
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           error = "Please enter a valid email address";
         }
@@ -105,7 +130,7 @@ function Signup() {
     
     // For name field, prevent numbers in real-time
     if (name === "name") {
-      // Allow only letters, spaces, and special characters but not numbers
+      // Allow only letters, spaces, but not numbers
       if (/[0-9]/.test(value)) {
         return; // Don't update if number is entered
       }
@@ -113,10 +138,16 @@ function Signup() {
     
     setFormData({ ...formData, [name]: value });
 
-    // Validate field if it's been touched
+    // Real-time validation for touched fields
     if (touched[name]) {
       const error = validateField(name, value);
       setErrors({ ...errors, [name]: error });
+    }
+    
+    // Special handling for confirm password when password changes
+    if (name === "password" && touched.confirmPassword) {
+      const confirmError = validateField("confirmPassword", formData.confirmPassword);
+      setErrors({ ...errors, confirmPassword: confirmError });
     }
   };
 
@@ -186,6 +217,16 @@ function Signup() {
     );
   };
 
+  // Get password strength color
+  const getPasswordStrengthColor = () => {
+    const { hasUpper, hasLower, hasNumber, minLength } = passwordStrength;
+    const fulfilled = [hasUpper, hasLower, hasNumber, minLength].filter(Boolean).length;
+    
+    if (fulfilled === 4) return "text-green-600";
+    if (fulfilled >= 2) return "text-yellow-600";
+    return "text-red-500";
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Fixed Navbar */}
@@ -228,6 +269,11 @@ function Signup() {
                     <span className="mr-1">⚠</span> {errors.name}
                   </p>
                 )}
+                {touched.name && !errors.name && formData.name && (
+                  <p className="text-green-500 text-sm mt-2 flex items-center">
+                    <span className="mr-1">✓</span> Valid name
+                  </p>
+                )}
               </div>
               <div>
                 <input
@@ -244,6 +290,11 @@ function Signup() {
                 {hasError("phone") && (
                   <p className="text-red-500 text-sm mt-2 flex items-center">
                     <span className="mr-1">⚠</span> {errors.phone}
+                  </p>
+                )}
+                {touched.phone && !errors.phone && formData.phone && (
+                  <p className="text-green-500 text-sm mt-2 flex items-center">
+                    <span className="mr-1">✓</span> Valid mobile number
                   </p>
                 )}
               </div>
@@ -268,6 +319,11 @@ function Signup() {
                     <span className="mr-1">⚠</span> {errors.email}
                   </p>
                 )}
+                {touched.email && !errors.email && formData.email && (
+                  <p className="text-green-500 text-sm mt-2 flex items-center">
+                    <span className="mr-1">✓</span> Valid email address
+                  </p>
+                )}
               </div>
               <div>
                 <input
@@ -284,6 +340,11 @@ function Signup() {
                 {hasError("address") && (
                   <p className="text-red-500 text-sm mt-2 flex items-center">
                     <span className="mr-1">⚠</span> {errors.address}
+                  </p>
+                )}
+                {touched.address && !errors.address && formData.address && (
+                  <p className="text-green-500 text-sm mt-2 flex items-center">
+                    <span className="mr-1">✓</span> Valid address
                   </p>
                 )}
               </div>
@@ -308,6 +369,32 @@ function Signup() {
                     <span className="mr-1">⚠</span> {errors.password}
                   </p>
                 )}
+                
+                {/* Password strength indicator */}
+                {touched.password && formData.password && !errors.password && (
+                  <div className="mt-2 space-y-1">
+                    <p className={`text-xs font-medium ${getPasswordStrengthColor()}`}>
+                      Password strength: {
+                        [passwordStrength.hasUpper, passwordStrength.hasLower, passwordStrength.hasNumber, passwordStrength.minLength].filter(Boolean).length === 4 ? "Strong ✓" :
+                        [passwordStrength.hasUpper, passwordStrength.hasLower, passwordStrength.hasNumber, passwordStrength.minLength].filter(Boolean).length >= 2 ? "Medium" : "Weak"
+                      }
+                    </p>
+                    <div className="space-y-0.5">
+                      <p className={`text-xs flex items-center ${passwordStrength.minLength ? "text-green-600" : "text-red-500"}`}>
+                        {passwordStrength.minLength ? "✓" : "○"} At least 6 characters
+                      </p>
+                      <p className={`text-xs flex items-center ${passwordStrength.hasUpper ? "text-green-600" : "text-red-500"}`}>
+                        {passwordStrength.hasUpper ? "✓" : "○"} Uppercase letter
+                      </p>
+                      <p className={`text-xs flex items-center ${passwordStrength.hasLower ? "text-green-600" : "text-red-500"}`}>
+                        {passwordStrength.hasLower ? "✓" : "○"} Lowercase letter
+                      </p>
+                      <p className={`text-xs flex items-center ${passwordStrength.hasNumber ? "text-green-600" : "text-red-500"}`}>
+                        {passwordStrength.hasNumber ? "✓" : "○"} Number
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
               <div>
                 <input
@@ -324,6 +411,11 @@ function Signup() {
                 {hasError("confirmPassword") && (
                   <p className="text-red-500 text-sm mt-2 flex items-center">
                     <span className="mr-1">⚠</span> {errors.confirmPassword}
+                  </p>
+                )}
+                {touched.confirmPassword && !errors.confirmPassword && formData.confirmPassword && (
+                  <p className="text-green-500 text-sm mt-2 flex items-center">
+                    <span className="mr-1">✓</span> Passwords match
                   </p>
                 )}
               </div>
