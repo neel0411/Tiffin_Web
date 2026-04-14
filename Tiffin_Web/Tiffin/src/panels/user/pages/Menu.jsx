@@ -17,7 +17,7 @@ const Menu = ({ onAddToCart }) => {
   const [sortBy, setSortBy] = useState("name");
   const [showFilters, setShowFilters] = useState(false);
 
-  const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || "https://tiffin-web-so1c.onrender.com";
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "/placeholder.png";

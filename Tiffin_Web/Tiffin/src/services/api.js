@@ -2,7 +2,7 @@ import axios from "axios";
 
 // ✅ Create Axios instance with better configuration
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://tiffin-web-so1c.onrender.com/api",
   timeout: 10000,
   withCredentials: false,
 });

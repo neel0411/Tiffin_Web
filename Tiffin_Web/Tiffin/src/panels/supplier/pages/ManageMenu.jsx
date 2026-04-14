@@ -195,7 +195,7 @@ function ManageMenu() {
       return imagePath;
     }
 
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "https://tiffin-web-so1c.onrender.com";
 
     // Starts with server path
     if (imagePath.startsWith('/uploads/')) {

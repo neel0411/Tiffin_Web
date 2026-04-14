@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://tiffin-web-so1c.onrender.com/api",
   timeout: 10000,
 });
 
@@ -423,7 +423,7 @@ const ManageMenu = () => {
                     <td className="px-3 py-3 whitespace-nowrap">
                       {item.menu_image ? (
                         <img 
-                          src={`http://localhost:5000${item.menu_image}`} 
+                          src={`https://tiffin-web-so1c.onrender.com${item.menu_image}`} 
                           alt={item.menu_name} 
                           className="h-10 w-10 object-cover rounded-lg shadow-sm"
                         />
