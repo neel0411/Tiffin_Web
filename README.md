@@ -73,5 +73,5 @@ Monitor platform activities efficiently
 
 Demo Link :
 
-https://tiffinzone.vercel.app/
+https://tiffin-zone.web.app
 
