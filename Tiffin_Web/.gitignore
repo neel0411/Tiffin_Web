@@ -1,0 +1,25 @@
+# Global ignores
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+
+# Firebase debug
+firebase-debug.log
+
+# Node modules (anywhere)
+node_modules/
+
+# Build folders
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
